@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro - English Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Criar Nova Conta</h2>
+    <form action="/processa_cadastro" method="POST">
+        <input type="email" name="email" placeholder="E-mail do Aluno" required><br><br>
+        <input type="password" name="senha" placeholder="Crie uma senha forte" required><br><br>
+        <button type="submit">Enviar Código de Verificação</button>
+    </form>
+</body>
+</html>

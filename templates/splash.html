@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Bem-vindo ao Game de Inglês</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { background: #1a1a2e; color: #e94560; display: flex; flex-direction: column; 
+               align-items: center; justify-content: center; height: 100vh; font-family: 'Segoe UI', sans-serif; }
+        .loader { border: 5px solid #16213e; border-top: 5px solid #e94560; border-radius: 50%; 
+                  width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+    <script>setTimeout(() => { window.location.href = "/login"; }, 3000);</script>
+</head>
+<body>
+    <h1>MY ENGLISH ADVENTURE</h1>
+    <p>Carregando universo...</p>
+    <div class="loader"></div>
+</body>
+</html>
