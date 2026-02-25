@@ -2,20 +2,63 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Bem-vindo ao Game de Inglês</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>English Adventure - Loading</title>
     <style>
-        body { background: #1a1a2e; color: #e94560; display: flex; flex-direction: column; 
-               align-items: center; justify-content: center; height: 100vh; font-family: 'Segoe UI', sans-serif; }
-        .loader { border: 5px solid #16213e; border-top: 5px solid #e94560; border-radius: 50%; 
-                  width: 50px; height: 50px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        body {
+            margin: 0;
+            background-color: #1a1a2e; /* Cor escura tema RPG */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .logo {
+            width: 150px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
     </style>
-    <script>setTimeout(() => { window.location.href = "/login"; }, 3000);</script>
 </head>
 <body>
-    <h1>MY ENGLISH ADVENTURE</h1>
-    <p>Carregando universo...</p>
+
+    <h1 style="font-size: 3em; margin-bottom: 10px;">UNREAD</h1>
+    <p>Carregando seu mundo...</p>
     <div class="loader"></div>
+
+    <script>
+        // 1. Espera 2 segundos para começar o efeito de sumir (fade-out)
+        setTimeout(function() {
+            document.getElementById('splash-body').style.opacity = '0';
+        }, 2000);
+
+        // 2. Espera o total de 3 segundos (tempo do fade + espera) para mudar de página
+        setTimeout(function() {
+            window.location.href = "{{ url_for('login') }}";
+        }, 3000);
+    </script>
 </body>
 </html>
