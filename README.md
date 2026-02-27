@@ -42,7 +42,7 @@ Este repositório contém o sistema de gestão do jogador, incluindo:
 Bash
 docker-compose up --build
 4. Acesse no navegador:
-  http://localhost:5000
+  http://localhost:5001
 
 
 👤 Desenvolvedor
