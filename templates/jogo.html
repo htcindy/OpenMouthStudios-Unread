@@ -2,25 +2,49 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Área do Jogador</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início - Unread</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='inicio.css') }}">
 </head>
 <body>
-    <h1>Tudo Pronto! 🎮</h1>
-    
-    <h3>Sobre o Jogo:</h3>
-    <p>Uma Visual Novel imersiva para aprender inglês enquanto desvenda um mistério em Londres.</p>
-    
-    <h3>Minijogos Inclusos:</h3>
-    <ul>
-        <li>Quiz de Vocabulário</li>
-        <li>Desafio de Listening</li>
-        <li>Tradução em Tempo Real</li>
-    </ul>
 
-    <hr>
-    <a href="/static/meu_jogo.zip" style="padding: 20px; background: green; color: white; text-decoration: none;">
-        BAIXAR JOGO PARA WINDOWS
-    </a>
+    <div class="main-wrapper">
+        <header class="hero-header">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='img/LOGO.png') }}" alt="Logo" class="hero-logo">
+                <h1 class="brand-name">Unread</h1>
+            </div>
+        </header>
+
+        <main class="content-section">
+            <div class="section-badge">ÁREA DO JOGADOR</div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Sobre o Jogo</h3>
+                    <p>Uma Visual Novel imersiva para aprender inglês enquanto desvenda um mistério em Londres.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>Minijogos Inclusos</h3>
+                    <ul>
+                        <li>Quiz de Vocabulário</li>
+                        <li>Desafio de Listening</li>
+                        <li>Tradução em Tempo Real</li>
+                    </ul>
+                </div>
+
+                <div class="info-card download-area">
+                    <h3>Pronto para começar?</h3>
+                    <a href="/static/meu_jogo.zip" class="btn-main">BAIXAR PARA WINDOWS</a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <p>&copy; 2026 OpenMouth Studio - Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
 </body>
 </html>

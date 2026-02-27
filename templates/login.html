@@ -2,16 +2,40 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Login - English Game</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Unread</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link href="https://cdn.boxicons.com/3.0.8/fonts/filled/boxicons-filled.min.css" rel="stylesheet">
 </head>
 <body>
-    <h2>Entrar no Jogo</h2>
-    <form action="/login_verificar" method="POST">
-        <input type="email" name="email" placeholder="Seu e-mail" required><br><br>
-        <input type="password" name="senha" placeholder="Sua senha" required><br><br>
-        <button type="submit">Entrar</button>
-    </form>
-    <p>Não tem conta? <a href="/cadastro">Cadastre-se aqui</a></p>
+
+
+    <div class="wrapper">
+        <form action="/login_verificar" method="POST">
+            <h1>Entrar</h1>
+            <div class="caixa">
+                <input type="email" name="email" placeholder="Seu e-mail" required>
+                <i class="bxf bx-envelope"></i>
+            </div>
+            <div class="caixa">
+                <input type="password" name="senha" placeholder="Sua senha" required>
+                <i class="bxf bx-lock"></i>
+            </div>
+            
+            <div class="lembrarSenha">
+                <label><input type="checkbox">Lembrar senha</label>
+                <a href="#">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="btn">Entrar</button>
+
+            <div class="cadastro-link">
+                <p>Não tem conta? <a href="/cadastro">Cadastre-se aqui</a></p>
+            </div>
+        </form>
+    </div>
+    
 </body>
+
 </html>

@@ -1,0 +1,91 @@
+/* Importando a Poppins e a Londrina Sketch do Figma */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Londrina+Sketch&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: rgb(45, 45, 45); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    transition: opacity 1s ease;
+}
+
+.splash-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-layout {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    /* REMOVIDO: a animação pulse saiu daqui para o texto ficar parado */
+}
+
+/* --- A CAVEIRA SEPARADA --- */
+.skull-container {
+    position: relative; /* Cria uma caixa invisível para montar as duas partes */
+    width: 140px; 
+    height: 150px; /* Ajuste se a caveira ficar achatada */
+}
+
+.skull-head {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2; /* Fica por cima */
+}
+
+.skull-jaw {
+    width: 100%;
+    position: absolute;
+    top: 90px; /* AUMENTE ESTE NÚMERO PARA DESCER A MANDÍBULA */
+    left: 0; 
+    z-index: 1; 
+    animation: abrirBoca 0.4s infinite alternate ease-in-out; 
+}
+
+@keyframes abrirBoca {
+    0% { transform: translateY(0); } /* Boca fechada */
+    100% { transform: translateY(12px); } /* Desce 12px simulando a fala */
+}
+
+/* --- TEXTOS --- */
+.text-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.openmouth-text {
+    color: #D3D3D3;
+    -webkit-text-stroke-width: 1.5px; 
+    -webkit-text-stroke-color: #D3D3D3;
+    font-family: "Londrina Sketch", cursive;
+    font-size: 120px; 
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 18px; 
+}
+
+.studio-text {
+    color: #D3D3D3;
+    font-family: "Poppins", sans-serif; 
+    font-size: 38px; 
+    font-weight: 800;
+    letter-spacing: 16px; 
+    margin-top: -20px; 
+    padding-right: 18px; 
+}

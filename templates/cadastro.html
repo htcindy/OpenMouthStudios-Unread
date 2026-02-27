@@ -2,15 +2,34 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro - English Game</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unread - Cadastro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='cadastro.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    <h2>Criar Nova Conta</h2>
-    <form action="/processa_cadastro" method="POST">
-        <input type="email" name="email" placeholder="E-mail do Aluno" required><br><br>
-        <input type="password" name="senha" placeholder="Crie uma senha forte" required><br><br>
-        <button type="submit">Enviar Código de Verificação</button>
-    </form>
+
+    <div class="wrapper">
+        <form action="/processa_cadastro" method="POST">
+            <h1>Criar Conta</h1>
+
+            <div class="caixa">
+                <input type="email" name="email" placeholder="E-mail" required>
+                <i class='bx bxs-envelope'></i>
+            </div>
+
+            <div class="caixa">
+                <input type="password" name="senha" placeholder="Crie uma senha forte" required>
+                <i class='bx bxs-lock-alt' ></i>
+            </div>
+
+            <button type="submit" class="btn">Enviar Código</button>
+
+            <div class="cadastro-link">
+                <p>Já tem uma conta? <a href="/login">Faça Login</a></p>
+            </div>
+        </form>
+    </div>
+
 </body>
 </html>

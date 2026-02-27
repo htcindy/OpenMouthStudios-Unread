@@ -2,18 +2,27 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Verificar E-mail</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar E-mail - OpenMouth Studio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='verificar.css') }}">
 </head>
 <body>
-    <h2>Verificação de Segurança</h2>
-    <p>Um código de 6 dígitos foi gerado. Digite-o abaixo:</p>
-    
-    <form action="/validar_otp" method="POST">
-        <input type="text" name="codigo_otp" placeholder="000000" maxlength="6" required 
-               style="font-size: 24px; text-align: center; width: 150px;">
-        <br><br>
-        <button type="submit">Verificar e Jogar</button>
-    </form>
+
+    <div class="verify-container">
+        <div class="verify-card">
+            
+            <h2 class="verify-title">Verificação de Segurança</h2>
+            <p class="verify-subtitle">Um código de 6 dígitos foi gerado. Digite-o abaixo:</p>
+            
+            <form action="/validar_otp" method="POST" class="verify-form">
+                
+                <input type="text" name="codigo_otp" class="verify-input" placeholder="000000" maxlength="6" autocomplete="off" required>
+                
+                <button type="submit" class="verify-btn">Verificar e Jogar</button>
+            </form>
+            
+        </div>
+    </div>
+
 </body>
 </html>

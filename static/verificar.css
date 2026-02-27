@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(45, 45, 45); /* Pinta o fundo real de escuro também */
+    width: 100%;
+    height: 100%;
+}
+
+/* --- ESTILOS DA TELA DE VERIFICAÇÃO --- */
+
+.verify-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa a altura toda da tela */
+    padding: 20px;
+    background-color: rgb(45, 45, 45); /* Mesmo fundo da Splash Screen */
+}
+
+/* O Card centralizado */
+.verify-card {
+    background-color: #1e1e24; /* Um cinza um pouco mais escuro/azulado para destacar */
+    padding: 50px 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.verify-title {
+    color: #ffffff; 
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.verify-subtitle {
+    color: #a0a0b0;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.verify-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* O campo de digitar o código */
+.verify-input {
+    background-color: #0f1016; /* Fundo escuro */
+    color: #ffffff; /* Texto branco */
+    font-size: 32px;
+    font-weight: 700;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    letter-spacing: 15px; /* Espaço entre os números */
+    border: none; /* REMOVE A BORDA NO ESTADO NORMAL */
+    transition: background-color 0.3s ease;
+}
+/* Efeito ao clicar para digitar */
+.verify-input:focus {
+    outline: none; /* Remove o outline de foco padrão do navegador */
+    border: none; /* Garante que não haja borda ao focar */
+    background-color: #1a1b26; /* Um fundo ligeiramente mais claro para indicar o foco (sutil) */
+    /* Se você quiser uma borda roxa MUITO sutil ao focar, use isto: border: 1px solid #3d3e5a; */
+}
+
+/* O Botão */
+.verify-btn {
+    background-color: #7c1919; /* Roxo vibrante (combina com o tema) */
+    color: #ffffff; /* Texto branco */
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none; /* REMOVE A BORDA NO ESTADO NORMAL (e a borda branca da imagem anterior) */
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    letter-spacing: 1px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.verify-btn:focus {
+    outline: none; /* Remove a borda de foco padrão do navegador */
+    border: none; /* Garante que não haja borda ao focar */
+}
+
+.verify-btn:hover {
+    background-color: #6d1000;
+}
+
+.verify-btn:active {
+    transform: scale(0.98); /* Efeito de "apertar" o botão */
+}

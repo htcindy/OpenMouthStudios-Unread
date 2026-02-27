@@ -1,0 +1,99 @@
+/* RESET TOTAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #1c1c1c; /* Cinza bem escuro para o fundo geral */
+}
+
+/* HEADER (Bloco cinza escuro do topo do desenho) */
+.logo-container {
+    display: flex;          /* Coloca os itens lado a lado */
+    align-items: center;    /* Alinha verticalmente no meio */
+    justify-content: flex-start; /* Alinha na esquerda */
+    padding-left: 5%;   /* Centraliza o conjunto na tela */
+    gap: 20px;              /* Espaço entre a logo e o texto */
+}
+
+.hero-logo {
+    height: 80px;           /* Ajuste o tamanho conforme sua logo original */
+    width: auto;
+}
+
+.brand-name {
+    font-size: 3rem;        /* Tamanho do nome Unread */
+    color: white;
+    font-weight: 700;
+    margin: 0;              /* Remove margens padrão que podem desalinhá-lo */
+}
+
+/* Ajuste no Header para garantir o fundo escuro do seu desenho */
+.hero-header {
+    background-color: #1c1c1c; 
+    padding: 40px 0;
+    width: 100%;
+    padding: 30px 50px;
+}
+
+/* CONTEÚDO CENTRAL (O fundo cinza claro que você pediu) */
+.content-section {
+    background-color: #e0e0e0; /* Cinza clarinho do desenho */
+    padding: 60px 10%;
+    min-height: 60vh;
+}
+
+/* TÍTULO DA SEÇÃO (Aquele bloco preto/escuro em cima das colunas) */
+.section-badge {
+    background-color: #1c1c1c;
+    color: white;
+    display: inline-block;
+    padding: 15px 30px;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-bottom: 40px;
+}
+
+/* AS 3 COLUNAS (Cinza médio para destacar do fundo claro) */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.info-card {
+    background-color: #cccccc; /* Cinza médio para os cards */
+    color: #1c1c1c; /* Texto escuro para ler no fundo cinza */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.info-card h3 {
+    margin-bottom: 15px;
+    color: #000;
+}
+
+/* BOTÃO DE DOWNLOAD (Mantendo o destaque que você tinha no verde, ou roxo) */
+.btn-main {
+    display: block;
+    background-color: #1c1c1c;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    padding: 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* FOOTER (Bloco cinza médio/escuro de baixo) */
+.main-footer {
+    background-color: #333333;
+    padding: 40px;
+    text-align: center;
+    color: #ccc;
+}
