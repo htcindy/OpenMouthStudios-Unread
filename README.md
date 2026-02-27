@@ -34,3 +34,18 @@ Este repositório contém o sistema de gestão do jogador, incluindo:
 1. Clone o repositório:
    ```bash
    git clone [https://github.com/SEU_USUARIO/OpenMouthStudios-Unread.git](https://github.com/SEU_USUARIO/OpenMouthStudios-Unread.git)
+
+2. Crie o arquivo .env e adicione suas credenciais.
+
+3. Suba os containers:
+
+Bash
+docker-compose up --build
+4. Acesse no navegador:
+  http://localhost:5000
+
+
+👤 Desenvolvedor
+Estúdio: OpenMouth Studio
+
+Status: Em desenvolvimento 🛠️
