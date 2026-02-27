@@ -1,22 +1,36 @@
-🚀 Como Rodar o Projeto
-Pré-requisitos
-Docker Desktop instalado e rodando.
+# 🎮 Unread - OpenMouth Studio
 
-VS Code (ou seu editor de preferência).
+<p align="center">
+  <img src="static/logo.png" alt="Unread Logo" width="200">
+</p>
 
-Passo a Passo
-Clone o repositório ou entre na pasta do projeto:
+## 📝 Sobre o Projeto
+**Unread** é uma Visual Novel imersiva desenvolvida pelo **OpenMouth Studio**. O jogo foca no ensino da língua inglesa através de uma narrativa de mistério ambientada em Londres. O jogador deve desvendar enigmas enquanto pratica vocabulário, audição e tradução.
 
-Bash
+Este repositório contém o sistema de gestão do jogador, incluindo:
+* Autenticação de usuários.
+* Validação de segurança via **OTP (One-Time Password)** por e-mail.
+* Dashboard de download do jogo e minijogos.
 
-cd Unread-OpenMouthStudios
-Suba o ambiente com o Docker:
-No terminal, execute o comando abaixo. Ele vai baixar a imagem do Python, instalar as bibliotecas do requirements.txt e ligar o servidor:
+---
 
-Bash
+## 🚀 Tecnologias Utilizadas
 
-docker-compose up --build
-Acesse no Navegador:
-O projeto foi configurado para evitar conflitos de portas. Acesse através do endereço:
+* **Linguagem:** Python 3.x
+* **Framework Web:** Flask
+* **Segurança:** Flask-Mail (Integração com SMTP do Gmail)
+* **Containerização:** Docker & Docker Compose
+* **Interface:** HTML5, CSS3 (Design Moderno/Dark Mode)
 
-http://localhost:5001
+---
+
+## 🛠️ Como Executar o Projeto
+
+### Pré-requisitos
+* Docker instalado.
+* Um arquivo `.env` configurado na raiz (veja a seção de Variáveis de Ambiente).
+
+### Passo a Passo
+1. Clone o repositório:
+   ```bash
+   git clone [https://github.com/SEU_USUARIO/OpenMouthStudios-Unread.git](https://github.com/SEU_USUARIO/OpenMouthStudios-Unread.git)
