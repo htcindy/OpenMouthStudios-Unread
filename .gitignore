@@ -1,4 +1,6 @@
 __pycache__/
 usuarios.db
+postgres_data/
 instance/
 .env
+*.pyc

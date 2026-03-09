@@ -1,11 +1,32 @@
+version: '3.8'
+
 services:
   web:
     build: .
     ports:
-      - "5001:5000"  
-    env_file:        
-      - .env
+      - "5001:5000"
     volumes:
-      - ./instance:/app/instance
+      - .:/app
+    env_file:
+      - .env
     environment:
-      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      # O 'db' no link abaixo é o nome do serviço ali embaixo
+      - DATABASE_URL=postgresql://user:password@db:5432/unread_db
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=unread_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432" # Porta para você acessar o banco por fora, se quiser
+
+volumes:
+  postgres_data:

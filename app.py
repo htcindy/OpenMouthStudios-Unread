@@ -23,7 +23,8 @@ app.config['MAIL_USE_SSL'] = False
 mail = Mail(app)
 
 # Banco de Dados
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///usuarios.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///usuarios.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class Usuario(db.Model):
@@ -134,5 +135,8 @@ def validar_otp():
 def jogo():
     return render_template('jogo.html')
 
+
 if __name__ == '__main__':
+    # host='0.0.0.0' permite que o Docker fale com o seu Windows
+    # debug=True faz o Flask reiniciar sozinho quando você salva o código
     app.run(debug=True, host='0.0.0.0', port=5000)
