@@ -5,12 +5,12 @@
 </p>
 
 ## 📝 Sobre o Projeto
-**Unread** é uma Visual Novel imersiva desenvolvida pelo **OpenMouth Studio**. O jogo foca no ensino da língua inglesa através de uma narrativa de mistério ambientada em Londres. O jogador deve desvendar enigmas enquanto pratica vocabulário, audição e tradução.
+**Unread** é uma Visual Novel imersiva desenvolvida pelo **OpenMouth Studio**. O jogo foca no ensino da língua inglesa através de uma narrativa de mistério ambientada em uma biblioteca. O jogador deve desvendar enigmas enquanto pratica vocabulário, audição e tradução.
 
 Este repositório contém o sistema de gestão do jogador, incluindo:
 * Autenticação de usuários.
 * Validação de segurança via **OTP (One-Time Password)** por e-mail.
-* Dashboard de download do jogo e minijogos.
+* Dashboard de download do jogo.
 
 ---
 
@@ -18,6 +18,7 @@ Este repositório contém o sistema de gestão do jogador, incluindo:
 
 * **Linguagem:** Python 3.x
 * **Framework Web:** Flask
+* **Banco de Dados:** PostgreeSQL
 * **Segurança:** Flask-Mail (Integração com SMTP do Gmail)
 * **Containerização:** Docker & Docker Compose
 * **Interface:** HTML5, CSS3 (Design Moderno/Dark Mode)
@@ -33,15 +34,20 @@ Este repositório contém o sistema de gestão do jogador, incluindo:
 ### Passo a Passo
 1. Clone o repositório:
    ```bash
-   git clone [https://github.com/SEU_USUARIO/OpenMouthStudios-Unread.git](https://github.com/SEU_USUARIO/OpenMouthStudios-Unread.git)
-
+   git clone https://github.com/htcindy/OpenMouthStudios-Unread.git
 2. Crie o arquivo .env e adicione suas credenciais.
 
 3. Suba os containers:
 
 Bash
 docker-compose up --build
-4. Acesse no navegador:
+
+4. Em outro terminal inicie
+Bash
+docker-compose up
+
+Iniciando assim todo o site
+5. Acesse no navegador:
   http://localhost:5001
 
 

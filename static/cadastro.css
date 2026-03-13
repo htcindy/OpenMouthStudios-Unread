@@ -12,7 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: rgb(45, 45, 45); /* Cor original que você mandou */
+    background: rgb(45, 45, 45);
     background-size: cover;
     background-position: center;
 }

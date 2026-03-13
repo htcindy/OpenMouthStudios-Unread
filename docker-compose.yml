@@ -11,7 +11,6 @@ services:
       - .env
     environment:
       - FLASK_DEBUG=1
-      # O 'db' no link abaixo é o nome do serviço ali embaixo
       - DATABASE_URL=postgresql://user:password@db:5432/unread_db
     depends_on:
       - db
@@ -26,7 +25,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5433:5432" # Porta para você acessar o banco por fora, se quiser
+      - "5433:5432"
 
 volumes:
   postgres_data:

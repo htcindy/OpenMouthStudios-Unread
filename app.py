@@ -68,6 +68,7 @@ def cadastro():
 
 @app.route('/processa_cadastro', methods=['POST'])
 def processa_cadastro():
+    usuario = request.form.get('usuario')
     email = request.form.get('email')
     senha = request.form.get('senha')
     
@@ -137,6 +138,4 @@ def jogo():
 
 
 if __name__ == '__main__':
-    # host='0.0.0.0' permite que o Docker fale com o seu Windows
-    # debug=True faz o Flask reiniciar sozinho quando você salva o código
     app.run(debug=True, host='0.0.0.0', port=5000)
