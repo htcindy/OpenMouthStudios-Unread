@@ -38,15 +38,14 @@ Este repositório contém o sistema de gestão do jogador, incluindo:
 2. Crie o arquivo .env e adicione suas credenciais.
 
 3. Suba os containers:
-
-Bash
-docker-compose up --build
+  ```Bash
+   docker-compose up --build
 
 4. Em outro terminal inicie
-Bash
-docker-compose up
-
+  ```Bash
+   docker-compose up
 Iniciando assim todo o site
+
 5. Acesse no navegador:
   http://localhost:5001
 
