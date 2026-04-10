@@ -4,22 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Início - Unread</title>
-    
     <link rel="stylesheet" href="{{ url_for('static', filename='inicio.css') }}?v=1.0">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="main-wrapper">
+
         <header class="hero-header">
             <div class="logo-container">
-                <img src="{{ url_for('static', filename='img/LOGO.png') }}" alt="Logo" class="hero-logo">
+                <img src="{{ url_for('static', filename='img/LOGO.png') }}" alt="Logo Unread" class="hero-logo">
                 <h1 class="brand-name">Unread</h1>
             </div>
+            <nav class="main-nav">
+
+                <a href="#">Sobre</a>
+                <a href="#">Minijogos</a>
+                <a href="#download" class="nav-ativo">Baixar</a>
+                <a href="/logout" class="nav-logout">Sair</a>
+            </nav>
         </header>
 
-        <main class="content-section">
-            <div class="section-badge">ÁREA DO JOGADOR</div>
+        <section class="hero-section">
+            <div class="hero-badge">Visual Novel • Aprendizado de Inglês</div>
+            <h2 class="hero-title">A biblioteca guarda um segredo.<br>Você consegue decifrá-lo?</h2>
+            <p class="hero-desc">Uma aventura de mistério onde aprender inglês é a única saída. Explore, dialogue e resolva enigmas.</p>
+            <div class="hero-btns">
+                <a href="/static/meu_jogo.zip" class="btn-main">Baixar para Windows</a>
+                <a href="#sobre" class="btn-secondary">Saiba mais</a>
+            </div>
+        </section>
+
+        <main class="content-section" id="sobre">
+            <div class="section-badge">Área do Jogador</div>
 
             <div class="info-grid">
                 <div class="info-card">
@@ -36,16 +53,22 @@
                     </ul>
                 </div>
 
-                <div class="info-card download-area">
+                <div class="info-card download-area" id="download">
                     <h3>Pronto para começar?</h3>
-                    <a href="/static/meu_jogo.zip" class="btn-main">BAIXAR PARA WINDOWS</a>
+                    <p>Grátis • Windows • v1.0</p>
+                    <a href="/static/meu_jogo.zip" class="btn-download">Baixar agora</a>
                 </div>
             </div>
         </main>
 
         <footer class="main-footer">
-            <p>&copy; 2026 OpenMouth Studio - Todos os direitos reservados.</p>
+            <p>&copy; 2026 OpenMouth Studio — Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Privacidade</a>
+                <a href="#">Contato</a>
+            </div>
         </footer>
+
     </div>
 
 </body>

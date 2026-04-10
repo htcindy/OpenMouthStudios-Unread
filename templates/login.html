@@ -15,6 +15,9 @@
     <div class="wrapper">
         <form action="/login_verificar" method="POST">
             <h1>Entrar</h1>
+            {% if erro %}
+            <div class="erro-banner">{{ erro }}</div>
+            {% endif %}
             <div class="caixa">
                 <input type="email" name="email" placeholder="Seu e-mail" required>
                 <i class="bxf bx-envelope"></i>

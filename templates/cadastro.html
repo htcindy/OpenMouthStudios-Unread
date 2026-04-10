@@ -25,17 +25,102 @@
             </div>
 
             <div class="caixa">
-                <input type="password" name="senha" placeholder="Crie uma senha forte" required>
+                <input type="password" name="senha" id="senha" placeholder="Crie uma senha forte" required>
                 <i class='bx bxs-lock-alt' ></i>
             </div>
 
-            <button type="submit" class="btn">Enviar Código</button>
+            <div class="requisitos" id="requisitos">
+                <p class="req" id="req-tamanho">
+                    <i class='bx bx-x icone-req'></i> Mínimo 8 caracteres
+                </p>
+                <p class="req" id="req-maiuscula">
+                    <i class='bx bx-x icone-req'></i> Uma letra maiúscula
+                </p>
+                <p class="req" id="req-numero">
+                    <i class='bx bx-x icone-req'></i> Um número
+                </p>
+                <p class="req" id="req-especial">
+                    <i class='bx bx-x icone-req'></i> Um caractere especial (!@#$...)
+                </p>
+            </div>
+
+            <div class="caixa">
+                <input type="password" name="confirmar_senha" id="confirmarSenha" placeholder="Confirme sua senha" required>
+                <i class='bx bxs-lock'></i>
+            </div>
+
+            <p class="erro-confirmacao" id="erroConfirmacao">As senhas não coincidem.</p>
+
+            <button type="submit" class="btn" id="btnEnviar" disabled>Enviar Código</button>
 
             <div class="cadastro-link">
                 <p>Já tem uma conta? <a href="/login">Faça Login</a></p>
             </div>
         </form>
     </div>
+
+<script>
+        const senha = document.getElementById('senha');
+        const confirmarSenha = document.getElementById('confirmarSenha');
+        const btnEnviar = document.getElementById('btnEnviar');
+        const erroConfirmacao = document.getElementById('erroConfirmacao');
+ 
+        const reqTamanho  = document.getElementById('req-tamanho');
+        const reqMaiuscula = document.getElementById('req-maiuscula');
+        const reqNumero   = document.getElementById('req-numero');
+        const reqEspecial = document.getElementById('req-especial');
+ 
+        function atualizarRequisito(elemento, valido) {
+            const icone = elemento.querySelector('.icone-req');
+            if (valido) {
+                elemento.classList.add('valido');
+                elemento.classList.remove('invalido');
+                icone.className = 'bx bx-check icone-req';
+            } else {
+                elemento.classList.remove('valido');
+                elemento.classList.add('invalido');
+                icone.className = 'bx bx-x icone-req';
+            }
+        }
+ 
+        function validarSenha() {
+            const valor = senha.value;
+ 
+            const temTamanho  = valor.length >= 8;
+            const temMaiuscula = /[A-Z]/.test(valor);
+            const temNumero   = /[0-9]/.test(valor);
+            const temEspecial = /[!@#$%^&*(),.?":{}|<>]/.test(valor);
+ 
+            atualizarRequisito(reqTamanho,   temTamanho);
+            atualizarRequisito(reqMaiuscula, temMaiuscula);
+            atualizarRequisito(reqNumero,    temNumero);
+            atualizarRequisito(reqEspecial,  temEspecial);
+ 
+            return temTamanho && temMaiuscula && temNumero && temEspecial;
+        }
+ 
+        function validarConfirmacao() {
+            const igual = senha.value === confirmarSenha.value && confirmarSenha.value !== '';
+            if (confirmarSenha.value === '') {
+                erroConfirmacao.style.display = 'none';
+            } else if (!igual) {
+                erroConfirmacao.style.display = 'block';
+            } else {
+                erroConfirmacao.style.display = 'none';
+            }
+            return igual;
+        }
+ 
+        function atualizarBotao() {
+            const senhaValida = validarSenha();
+            const confirmacaoValida = validarConfirmacao();
+            btnEnviar.disabled = !(senhaValida && confirmacaoValida);
+        }
+ 
+        senha.addEventListener('input', atualizarBotao);
+        confirmarSenha.addEventListener('input', atualizarBotao);
+    </script>
+ 
 
 </body>
 </html>

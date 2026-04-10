@@ -116,3 +116,14 @@ body {
 .cadastro-link p a:hover {
     text-decoration: underline;
 }
+
+.erro-banner {
+    background: rgba(226, 75, 74, 0.18);
+    border: 1px solid rgba(226, 75, 74, 0.4);
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 13px;
+    color: #f4a0a0;
+    margin-bottom: 16px;
+    text-align: center;
+}

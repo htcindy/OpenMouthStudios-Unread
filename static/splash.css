@@ -29,14 +29,13 @@ body {
     display: flex;
     align-items: center;
     gap: 35px;
-    /* REMOVIDO: a animação pulse saiu daqui para o texto ficar parado */
+    
 }
 
-/* --- A CAVEIRA SEPARADA --- */
 .skull-container {
-    position: relative; /* Cria uma caixa invisível para montar as duas partes */
+    position: relative;
     width: 140px; 
-    height: 150px; /* Ajuste se a caveira ficar achatada */
+    height: 150px;
 }
 
 .skull-head {
@@ -44,24 +43,23 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 2; /* Fica por cima */
+    z-index: 2; 
 }
 
 .skull-jaw {
     width: 100%;
     position: absolute;
-    top: 90px; /* AUMENTE ESTE NÚMERO PARA DESCER A MANDÍBULA */
+    top: 90px;
     left: 0; 
     z-index: 1; 
     animation: abrirBoca 0.4s infinite alternate ease-in-out; 
 }
 
 @keyframes abrirBoca {
-    0% { transform: translateY(0); } /* Boca fechada */
-    100% { transform: translateY(12px); } /* Desce 12px simulando a fala */
+    0% { transform: translateY(0); } 
+    100% { transform: translateY(12px); } 
 }
 
-/* --- TEXTOS --- */
 .text-group {
     display: flex;
     flex-direction: column;

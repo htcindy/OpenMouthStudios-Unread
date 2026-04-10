@@ -58,12 +58,51 @@ body {
     color: aliceblue;
 }
 
+.caixa input:focus {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
 .caixa i {
     position: absolute;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 20px;
+}
+
+.requisitos {
+    margin: -8px 0 8px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+ 
+.req {
+    font-size: 12.5px;
+    color: rgba(240, 248, 255, 0.45);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+}
+ 
+.req .icone-req {
+    font-size: 15px;
+}
+ 
+.req.valido {
+    color: #5dcaa5;
+}
+ 
+.req.invalido {
+    color: rgba(240, 248, 255, 0.45);
+}
+
+.erro-confirmacao {
+    font-size: 12.5px;
+    color: #f4a0a0;
+    margin: -10px 0 8px 6px;
+    display: none;
 }
 
 .wrapper .btn {
@@ -79,6 +118,16 @@ body {
     color: #333;
     font-weight: 600;
     margin-top: 10px;
+    transition: opacity 0.2s;
+}
+
+.wrapper .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.wrapper .btn:not(:disabled):hover {
+    opacity: 0.9;
 }
 
 .wrapper .cadastro-link {

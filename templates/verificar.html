@@ -14,15 +14,47 @@
             <h2 class="verify-title">Verificação de Segurança</h2>
             <p class="verify-subtitle">Um código de 6 dígitos foi gerado. Digite-o abaixo:</p>
             
+            {% if erro %}
+            <div class="erro-banner">{{ erro }}</div>
+            {% endif %}
+
             <form action="/validar_otp" method="POST" class="verify-form">
                 
                 <input type="text" name="codigo_otp" class="verify-input" placeholder="000000" maxlength="6" autocomplete="off" required>
                 
                 <button type="submit" class="verify-btn">Verificar e Jogar</button>
             </form>
+
+             <div class="timer-area">
+                <p class="timer-texto">O código expira em <span id="timer">30</span>s</p>
+                <button id="btnReenviar" class="reenviar-btn" disabled onclick="reenviarCodigo()">
             
+                 Reenviar código
+            </button>
         </div>
     </div>
+</div>
+
+<script>
+        let segundos = 30;
+        const timerEl = document.getElementById('timer');
+        const btnReenviar = document.getElementById('btnReenviar');
+ 
+        const intervalo = setInterval(() => {
+            segundos--;
+            timerEl.textContent = segundos;
+ 
+            if (segundos <= 0) {
+                clearInterval(intervalo);
+                timerEl.parentElement.textContent = 'O código expirou.';
+                btnReenviar.disabled = false;
+            }
+        }, 1000);
+ 
+        function reenviarCodigo() {
+            window.location.href = '/reenviar_otp';
+        }
+    </script>
 
 </body>
 </html>

@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 import pyotp
+from functools import wraps
 from flask_mail import Mail, Message
 
 
@@ -29,6 +30,7 @@ db = SQLAlchemy(app)
 
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), nullable=True)  
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha = db.Column(db.String(200), nullable=False)
     secret_token = db.Column(db.String(32))
@@ -36,6 +38,16 @@ class Usuario(db.Model):
 
 with app.app_context():
     db.create_all()
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'usuario_email' not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+ 
+ 
 
 # --- ROTAS ---
 
@@ -52,23 +64,28 @@ def login_verificar():
     email = request.form.get('email')
     senha_digitada = request.form.get('senha')
     user = Usuario.query.filter_by(email=email).first()
-    
+ 
+    erro_msg = "Credenciais inválidas. Tente novamente."
+ 
     if user and check_password_hash(user.senha, senha_digitada):
         if user.verificado:
-            session['email_verificacao'] = user.email
+            session.clear()
+            session['usuario_email'] = user.email
             return redirect(url_for('jogo'))
         else:
             session['email_verificacao'] = user.email
-            return "Verifique seu e-mail primeiro! <a href='/verificar'>Ir para verificação</a>"
-    return "E-mail ou senha incorretos! <a href='/login'>Tentar novamente</a>"
-
+            return redirect(url_for('verificar'))
+ 
+    return render_template('login.html', erro=erro_msg)
+ 
+ 
 @app.route('/cadastro')
 def cadastro():
     return render_template('cadastro.html')
 
 @app.route('/processa_cadastro', methods=['POST'])
 def processa_cadastro():
-    usuario = request.form.get('usuario')
+    username = request.form.get('usuario')
     email = request.form.get('email')
     senha = request.form.get('senha')
     
@@ -92,7 +109,7 @@ def processa_cadastro():
     # Se for um cadastro novo
     secret = pyotp.random_base32()
     senha_hash = generate_password_hash(senha)
-    novo_user = Usuario(email=email, senha=senha_hash, secret_token=secret, verificado=False)
+    novo_user = Usuario(username=username, email=email, senha=senha_hash, secret_token=secret, verificado=False)
     
     try:
         db.session.add(novo_user)
@@ -116,7 +133,10 @@ def processa_cadastro():
 
 @app.route('/verificar')
 def verificar():
+    if 'email_verificacao' not in session:
+        return redirect(url_for('cadastro'))
     return render_template('verificar.html')
+
 
 @app.route('/validar_otp', methods=['POST'])
 def validar_otp():
@@ -129,13 +149,40 @@ def validar_otp():
         if totp.verify(codigo_digitado, valid_window=1):
             user.verificado = True
             db.session.commit()
+
+            session.pop('email_verificacao', None)
+            session['usuario_email'] = user.email
+
             return redirect(url_for('jogo'))
-    return f"Código inválido! Tente novamente."
+        
+    return render_template('verificar.html', erro="Código inválido! Tente novamente.")
+
+@app.route('/reenviar_otp')
+def reenviar_otp():
+    email = session.get('email_verificacao')
+    if not email:
+        return redirect(url_for('cadastro'))
+    
+    user = Usuario.query.filter_by(email=email).first()
+    if user:
+        totp = pyotp.TOTP(user.secret_token)
+        codigo = totp.now()
+        msg = Message("Novo Código de Acesso", sender="noreply@englishadventure.com", recipients=[email])
+        msg.body = f"Seu novo código é: {codigo}"
+        mail.send(msg)
+
+    return redirect(url_for('verificar'))
 
 @app.route('/jogo')
+@login_required
 def jogo():
     return render_template('jogo.html')
-
+ 
+ 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('splash'))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
