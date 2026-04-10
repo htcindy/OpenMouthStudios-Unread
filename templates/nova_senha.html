@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Senha</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='cadastro.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+<div class="wrapper">
+    <form action="/salvar_nova_senha" method="POST">
+        <h1>Nova Senha</h1>
+
+        <input type="hidden" name="token" value="{{ token }}">
+
+        <div class="caixa">
+            <input type="password" name="senha" id="senha" placeholder="Crie uma nova senha" required>
+            <i class='bx bxs-lock-alt'></i>
+        </div>
+
+        <div class="requisitos">
+            <p class="req" id="req-tamanho"><i class='bx bx-x icone-req'></i> Mínimo 8 caracteres</p>
+            <p class="req" id="req-maiuscula"><i class='bx bx-x icone-req'></i> Uma letra maiúscula</p>
+            <p class="req" id="req-numero"><i class='bx bx-x icone-req'></i> Um número</p>
+            <p class="req" id="req-especial"><i class='bx bx-x icone-req'></i> Um caractere especial</p>
+        </div>
+
+        <div class="caixa">
+            <input type="password" name="confirmarSenha" id="confirmarSenha" placeholder="Confirme a senha" required>
+            <i class='bx bxs-lock'></i>
+        </div>
+
+        <p class="erro-confirmacao" id="erroConfirmacao" style="display:none;">
+            As senhas não coincidem.
+        </p>
+
+        <button type="submit" class="btn" id="btnEnviar" disabled>Salvar Nova Senha</button>
+    </form>
+</div>
+
+<script>
+const senha = document.getElementById('senha');
+const confirmarSenha = document.getElementById('confirmarSenha');
+const btnEnviar = document.getElementById('btnEnviar');
+const erroConfirmacao = document.getElementById('erroConfirmacao');
+
+const reqTamanho  = document.getElementById('req-tamanho');
+const reqMaiuscula = document.getElementById('req-maiuscula');
+const reqNumero   = document.getElementById('req-numero');
+const reqEspecial = document.getElementById('req-especial');
+
+function atualizarRequisito(elemento, valido) {
+    const icone = elemento.querySelector('.icone-req');
+    if (valido) {
+        elemento.classList.add('valido');
+        icone.className = 'bx bx-check icone-req';
+    } else {
+        elemento.classList.remove('valido');
+        icone.className = 'bx bx-x icone-req';
+    }
+}
+
+function validarSenha() {
+    const valor = senha.value;
+
+    const temTamanho  = valor.length >= 8;
+    const temMaiuscula = /[A-Z]/.test(valor);
+    const temNumero   = /[0-9]/.test(valor);
+    const temEspecial = /[^\w\s]/.test(valor); 
+
+    atualizarRequisito(reqTamanho, temTamanho);
+    atualizarRequisito(reqMaiuscula, temMaiuscula);
+    atualizarRequisito(reqNumero, temNumero);
+    atualizarRequisito(reqEspecial, temEspecial);
+
+    return temTamanho && temMaiuscula && temNumero && temEspecial;
+}
+
+function validarConfirmacao() {
+    const igual = senha.value === confirmarSenha.value && confirmarSenha.value !== '';
+
+    if (!igual && confirmarSenha.value !== '') {
+        erroConfirmacao.style.display = 'block';
+    } else {
+        erroConfirmacao.style.display = 'none';
+    }
+
+    return igual;
+}
+
+function atualizarBotao() {
+    const senhaValida = validarSenha();
+    const confirmacaoValida = validarConfirmacao();
+
+    btnEnviar.disabled = !(senhaValida && confirmacaoValida);
+}
+
+senha.addEventListener('input', atualizarBotao);
+confirmarSenha.addEventListener('input', atualizarBotao);
+</script>
+
+</body>
+</html>

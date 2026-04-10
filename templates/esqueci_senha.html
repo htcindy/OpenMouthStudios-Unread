@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Senha</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='esqueci_senha.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+<div class="wrapper">
+    <form action="/enviar_reset" method="POST">
+        <h1>Recuperar Senha</h1>
+
+        <div class="caixa">
+            <input type="email" name="email" placeholder="Digite seu e-mail" required>
+            <i class='bx bxs-envelope'></i>
+        </div>
+
+        {% if mensagem %}
+            <p class="sucesso">{{ mensagem }}</p>
+        {% endif %}
+
+        {% if erro %}
+            <p class="erro-confirmacao">{{ erro }}</p>
+        {% endif %}
+
+        <button type="submit" class="btn">Enviar Código</button>
+
+        <div class="cadastro-link">
+            <a href="/login">Voltar ao login</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

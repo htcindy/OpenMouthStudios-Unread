@@ -47,8 +47,6 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
  
- 
-
 # --- ROTAS ---
 
 @app.route('/')
@@ -172,6 +170,78 @@ def reenviar_otp():
         mail.send(msg)
 
     return redirect(url_for('verificar'))
+
+@app.route('/esqueci_senha')
+def esqueci_senha():
+    return render_template('esqueci_senha.html')
+
+# Email de redefinição de senha
+@app.route('/enviar_reset', methods=['POST'])
+def enviar_reset():
+    email = request.form.get('email')
+    user = Usuario.query.filter_by(email=email).first()
+
+    if user:
+        totp = pyotp.TOTP(user.secret_token)
+        codigo = totp.now()
+
+        msg = Message("Recuperação de Senha", 
+                      sender="noreply@englishadventure.com", 
+                      recipients=[email])
+        msg.body = f"Use o código {codigo} para redefinir sua senha. Caso não tenha sido você quem solicitou a redefinição, altere sua senha para manter sua conta segura."
+        mail.send(msg)
+
+        session['reset_email'] = email
+        return redirect(url_for('verificar_reset'))
+
+    return render_template('esqueci_senha.html', erro="Email não encontrado")
+
+# Inserir o código para a redefinição
+@app.route('/verificar_reset')
+def verificar_reset():
+    if 'reset_email' not in session:
+        return redirect(url_for('login'))
+    return render_template('verificar_reset.html')
+
+# Validar código de redefinição
+@app.route('/validar_reset', methods=['POST'])
+def validar_reset():
+    codigo = request.form.get('codigo')
+    email = session.get('reset_email')
+
+    user = Usuario.query.filter_by(email=email).first()
+
+    if user:
+        totp = pyotp.TOTP(user.secret_token)
+        if totp.verify(codigo, valid_window=1):
+            return redirect(url_for('nova_senha'))
+
+    return render_template('verificar_reset.html', erro="Código inválido")
+
+# Criar nova senha
+@app.route('/nova_senha')
+def nova_senha():
+    if 'reset_email' not in session:
+        return redirect(url_for('login'))
+    return render_template('nova_senha.html')
+
+# Salvar nova senha
+@app.route('/salvar_nova_senha', methods=['POST'])
+def salvar_nova_senha():
+    senha = request.form.get('senha')
+    email = session.get('reset_email')
+
+    user = Usuario.query.filter_by(email=email).first()
+
+    if user:
+        user.senha = generate_password_hash(senha)
+        db.session.commit()
+
+        session.pop('reset_email', None)
+
+        return redirect(url_for('login'))
+
+    return redirect(url_for('esqueci_senha'))
 
 @app.route('/jogo')
 @login_required
