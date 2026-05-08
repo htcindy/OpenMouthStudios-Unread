@@ -1,0 +1,217 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: #2d2d2d;
+    color: #f0f8ff;
+    min-height: 100vh;
+}
+
+/* HEADER */
+.admin-header {
+    background: #2d2d2d;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 14px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-logo {
+    height: 36px;
+    width: auto;
+}
+
+.admin-brand {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #f0f8ff;
+}
+
+.admin-brand span {
+    color: rgba(240, 248, 255, 0.35);
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-voltar {
+    color: rgba(240, 248, 255, 0.5);
+    font-size: 13px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.btn-voltar:hover {
+    color: #f0f8ff;
+}
+
+.btn-logout {
+    color: #f0f8ff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 7px 18px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+/* MAIN */
+.admin-main {
+    padding: 36px 5%;
+}
+
+.admin-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 28px;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.card-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f0f8ff;
+}
+
+.total-badge {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(240, 248, 255, 0.5);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+}
+
+/* TABELA */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.user-table thead tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-table th {
+    text-align: left;
+    padding: 10px 14px;
+    color: rgba(240, 248, 255, 0.4);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.user-table td {
+    padding: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(240, 248, 255, 0.8);
+    vertical-align: middle;
+}
+
+.user-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* BADGES */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.badge-ok {
+    background: rgba(29, 158, 117, 0.15);
+    color: #5dcaa5;
+    border: 1px solid rgba(29, 158, 117, 0.3);
+}
+
+.badge-no {
+    background: rgba(226, 75, 74, 0.12);
+    color: #f4a0a0;
+    border: 1px solid rgba(226, 75, 74, 0.25);
+}
+
+.badge-admin {
+    background: rgba(255, 200, 80, 0.12);
+    color: #fcd34d;
+    border: 1px solid rgba(255, 200, 80, 0.25);
+}
+
+.badge-user {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(240, 248, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* BOTÕES DE AÇÃO */
+.acoes {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn-action {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    transition: opacity 0.2s;
+}
+
+.btn-action:hover {
+    opacity: 0.8;
+}
+
+.btn-promover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #f0f8ff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-deletar {
+    background: rgba(226, 75, 74, 0.15);
+    color: #f4a0a0;
+    border: 1px solid rgba(226, 75, 74, 0.3);
+}

@@ -17,10 +17,12 @@
                 <h1 class="brand-name">Unread</h1>
             </div>
             <nav class="main-nav">
-
+                {% if is_admin %}
+            <a href="/admin" class="nav-ativo">Administração</a>
+                {% endif %}
                 <a href="#">Sobre</a>
                 <a href="#">Minijogos</a>
-                <a href="#download" class="nav-ativo">Baixar</a>
+                <a href="#download">Baixar</a>
                 <a href="/logout" class="nav-logout">Sair</a>
             </nav>
         </header>

@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
 
 # Configurações Mailtrap
-app.config['MAIL_SERVER']='sandbox.smtp.mailtrap.io'
+app.config['MAIL_SERVER'] = 'sandbox.smtp.mailtrap.io'
 app.config['MAIL_PORT'] = 2525
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
@@ -28,16 +28,20 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///usu
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), nullable=True)  
+    username = db.Column(db.String(80), nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha = db.Column(db.String(200), nullable=False)
     secret_token = db.Column(db.String(32))
     verificado = db.Column(db.Boolean, default=False)
+    is_admin = db.Column(db.Boolean, default=False)  # <-- novo campo
+
 
 with app.app_context():
     db.create_all()
+
 
 def login_required(f):
     @wraps(f)
@@ -46,88 +50,112 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
- 
+
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'usuario_email' not in session:
+            return redirect(url_for('login'))
+        user = Usuario.query.filter_by(email=session['usuario_email']).first()
+        if not user or not user.is_admin:
+            return redirect(url_for('jogo'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 # --- ROTAS ---
 
 @app.route('/')
 def splash():
     return render_template('splash.html')
 
+
 @app.route('/login')
 def login():
     return render_template('login.html')
+
 
 @app.route('/login_verificar', methods=['POST'])
 def login_verificar():
     email = request.form.get('email')
     senha_digitada = request.form.get('senha')
     user = Usuario.query.filter_by(email=email).first()
- 
+
     erro_msg = "Credenciais inválidas. Tente novamente."
- 
+
     if user and check_password_hash(user.senha, senha_digitada):
         if user.verificado:
             session.clear()
             session['usuario_email'] = user.email
+            session['is_admin'] = user.is_admin
             return redirect(url_for('jogo'))
         else:
             session['email_verificacao'] = user.email
             return redirect(url_for('verificar'))
- 
+
     return render_template('login.html', erro=erro_msg)
- 
- 
+
+
 @app.route('/cadastro')
 def cadastro():
     return render_template('cadastro.html')
+
 
 @app.route('/processa_cadastro', methods=['POST'])
 def processa_cadastro():
     username = request.form.get('usuario')
     email = request.form.get('email')
     senha = request.form.get('senha')
-    
+    is_admin = username == os.getenv('ADMIN_USERNAME')
+
     user_existente = Usuario.query.filter_by(email=email).first()
-    
+
     # Se o usuário já existe mas não validou
     if user_existente:
         if not user_existente.verificado:
             session['email_verificacao'] = email
             totp = pyotp.TOTP(user_existente.secret_token)
             codigo = totp.now()
-            
-            # Re-envia o e-mail
+
             msg = Message("Seu Código de Acesso", sender="noreply@englishadventure.com", recipients=[email])
             msg.body = f"Seu novo código é: {codigo}"
             mail.send(msg)
-            
+
             return redirect(url_for('verificar'))
         return render_template('erro_cadastro.html')
 
     # Se for um cadastro novo
     secret = pyotp.random_base32()
     senha_hash = generate_password_hash(senha)
-    novo_user = Usuario(username=username, email=email, senha=senha_hash, secret_token=secret, verificado=False)
-    
+    novo_user = Usuario(
+        username=username,
+        email=email,
+        senha=senha_hash,
+        secret_token=secret,
+        verificado=False,
+        is_admin=is_admin
+    )
+
     try:
         db.session.add(novo_user)
         db.session.commit()
-        
-        # Gera código e envia e-mail
+
         totp = pyotp.TOTP(secret)
         codigo = totp.now()
-        
+
         msg = Message("Bem-vindo! Confirme seu e-mail", sender="noreply@englishadventure.com", recipients=[email])
         msg.body = f"Welcome! Seu código de verificação é: {codigo}"
         mail.send(msg)
-        
+
         session['email_verificacao'] = email
         return redirect(url_for('verificar'))
-        
+
     except Exception as e:
         db.session.rollback()
-        print(f"Erro detectado: {e}") 
+        print(f"Erro detectado: {e}")
         return render_template('erro_geral.html')
+
 
 @app.route('/verificar')
 def verificar():
@@ -141,7 +169,7 @@ def validar_otp():
     codigo_digitado = request.form.get('codigo_otp')
     email = session.get('email_verificacao')
     user = Usuario.query.filter_by(email=email).first()
-    
+
     if user:
         totp = pyotp.TOTP(user.secret_token)
         if totp.verify(codigo_digitado, valid_window=1):
@@ -150,17 +178,19 @@ def validar_otp():
 
             session.pop('email_verificacao', None)
             session['usuario_email'] = user.email
+            session['is_admin'] = user.is_admin
 
             return redirect(url_for('jogo'))
-        
+
     return render_template('verificar.html', erro="Código inválido! Tente novamente.")
+
 
 @app.route('/reenviar_otp')
 def reenviar_otp():
     email = session.get('email_verificacao')
     if not email:
         return redirect(url_for('cadastro'))
-    
+
     user = Usuario.query.filter_by(email=email).first()
     if user:
         totp = pyotp.TOTP(user.secret_token)
@@ -170,6 +200,7 @@ def reenviar_otp():
         mail.send(msg)
 
     return redirect(url_for('verificar'))
+
 
 @app.route('/esqueci_senha')
 def esqueci_senha():
@@ -185,8 +216,8 @@ def enviar_reset():
         totp = pyotp.TOTP(user.secret_token)
         codigo = totp.now()
 
-        msg = Message("Recuperação de Senha", 
-                      sender="noreply@englishadventure.com", 
+        msg = Message("Recuperação de Senha",
+                      sender="noreply@englishadventure.com",
                       recipients=[email])
         msg.body = f"Use o código {codigo} para redefinir sua senha. Caso não tenha sido você quem solicitou a redefinição, altere sua senha para manter sua conta segura."
         mail.send(msg)
@@ -203,7 +234,7 @@ def verificar_reset():
         return redirect(url_for('login'))
     return render_template('verificar_reset.html')
 
-# Validar código de redefinição
+
 @app.route('/validar_reset', methods=['POST'])
 def validar_reset():
     codigo = request.form.get('codigo')
@@ -218,14 +249,14 @@ def validar_reset():
 
     return render_template('verificar_reset.html', erro="Código inválido")
 
-# Criar nova senha
+
 @app.route('/nova_senha')
 def nova_senha():
     if 'reset_email' not in session:
         return redirect(url_for('login'))
     return render_template('nova_senha.html')
 
-# Salvar nova senha
+
 @app.route('/salvar_nova_senha', methods=['POST'])
 def salvar_nova_senha():
     senha = request.form.get('senha')
@@ -238,21 +269,52 @@ def salvar_nova_senha():
         db.session.commit()
 
         session.pop('reset_email', None)
-
         return redirect(url_for('login'))
 
     return redirect(url_for('esqueci_senha'))
 
+
 @app.route('/jogo')
 @login_required
 def jogo():
-    return render_template('jogo.html')
- 
- 
+    user = Usuario.query.filter_by(email=session['usuario_email']).first()
+    return render_template('jogo.html', is_admin=user.is_admin)
+
+
+# --- PAINEL ADMIN ---
+
+@app.route('/admin')
+@admin_required
+def admin():
+    usuarios = Usuario.query.order_by(Usuario.id).all()
+    return render_template('admin.html', usuarios=usuarios)
+
+
+@app.route('/admin/deletar/<int:user_id>', methods=['POST'])
+@admin_required
+def admin_deletar(user_id):
+    user = Usuario.query.get_or_404(user_id)
+    if user.email == session['usuario_email']:
+        return redirect(url_for('admin'))
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+
+@app.route('/admin/promover/<int:user_id>', methods=['POST'])
+@admin_required
+def admin_promover(user_id):
+    user = Usuario.query.get_or_404(user_id)
+    user.is_admin = not user.is_admin
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('splash'))
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

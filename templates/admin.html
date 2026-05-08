@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unread | Painel Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}?v=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="admin-wrapper">
+
+        <header class="admin-header">
+            <div class="header-left">
+                <img src="{{ url_for('static', filename='img/LOGO.png') }}" alt="Logo" class="admin-logo">
+                <h1 class="admin-brand">Unread <span>Admin</span></h1>
+            </div>
+            <div class="header-right">
+                <a href="/jogo" class="btn-voltar">← Voltar ao Jogo</a>
+                <a href="/logout" class="btn-logout">Sair</a>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="admin-card">
+                <div class="card-header">
+                    <h2>Gerenciar Usuários</h2>
+                    <span class="total-badge">{{ usuarios|length }} usuários</span>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="user-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Verificado</th>
+                                <th>Admin</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in usuarios %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.username or '—' }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    {% if user.verificado %}
+                                        <span class="badge badge-ok">Sim</span>
+                                    {% else %}
+                                        <span class="badge badge-no">Não</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if user.is_admin %}
+                                        <span class="badge badge-admin">Admin</span>
+                                    {% else %}
+                                        <span class="badge badge-user">Jogador</span>
+                                    {% endif %}
+                                </td>
+                                <td class="acoes">
+                                    <!-- Promover / Rebaixar -->
+                                    <form action="/admin/promover/{{ user.id }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn-action btn-promover">
+                                            {% if user.is_admin %}Rebaixar{% else %}Promover{% endif %}
+                                        </button>
+                                    </form>
+
+                                    <!-- Deletar (não aparece para o próprio admin logado) -->
+                                    {% if user.email != session['usuario_email'] %}
+                                    <form action="/admin/deletar/{{ user.id }}" method="POST" style="display:inline;"
+                                          onsubmit="return confirm('Tem certeza que deseja deletar {{ user.username or user.email }}?')">
+                                        <button type="submit" class="btn-action btn-deletar">Deletar</button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+</body>
+</html>
