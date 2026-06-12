@@ -1,7 +1,7 @@
 # 🎮 Unread - OpenMouth Studio
 
 <p align="center">
-  <img src="static/logo.png" alt="Unread Logo" width="200">
+  <img src="static/LOGO_UNREAD.png" alt="Unread Logo" width="200">
 </p>
 
 ## 📝 Sobre o Projeto

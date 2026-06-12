@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unread | Pagamento Confirmado</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='inicio.css') }}?v=2.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .status-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+        }
+
+        .status-card {
+            background: #0e0517;
+            border: 1.5px solid rgba(52, 19, 100, 0.55);
+            border-radius: 20px;
+            padding: 52px 44px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 30px rgba(139, 92, 246, 0.1);
+        }
+
+        .status-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 24px;
+        }
+
+        .icon-success {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1.5px solid rgba(74, 222, 128, 0.25);
+        }
+
+        .status-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #4ade80;
+            margin-bottom: 10px;
+        }
+
+        .status-title {
+            font-family: "Cinzel", serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.03em;
+        }
+
+        .status-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .status-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 28px;
+        }
+
+        .status-info {
+            background: rgba(74, 222, 128, 0.05);
+            border: 1px solid rgba(74, 222, 128, 0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 12px;
+            color: rgba(240, 248, 255, 0.5);
+            line-height: 1.6;
+            margin-bottom: 28px;
+            text-align: left;
+        }
+
+        .status-info strong {
+            color: rgba(240, 248, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .btn-status-main {
+            display: block;
+            width: 100%;
+            background: var(--purple-deep);
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            padding: 14px 0;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: "Poppins", sans-serif;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(52, 19, 100, 0.5);
+            transition: opacity 0.2s, transform 0.15s;
+            margin-bottom: 12px;
+        }
+
+        .btn-status-main:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Se o premium ainda não foi liberado (webhook pendente) */
+        .pending-notice {
+            font-size: 11px;
+            color: var(--text-faint);
+            margin-top: 16px;
+            line-height: 1.6;
+        }
+
+        .pending-notice a {
+            color: var(--purple-mid);
+            text-decoration: none;
+        }
+
+        .pending-notice a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-wrapper">
+        <div class="status-card">
+
+            <div class="status-icon icon-success">✓</div>
+            <p class="status-label">Pagamento confirmado</p>
+            <h1 class="status-title">Bem-vindo ao jogo completo</h1>
+            <p class="status-desc">
+                Sua compra foi aprovada com sucesso.<br>
+                O mistério da biblioteca está todo seu agora.
+            </p>
+
+            <div class="status-divider"></div>
+
+            <div class="status-info">
+                <strong>Unread — Versão Completa</strong><br>
+                Acesso a todos os capítulos, minijogos e atualizações futuras.<br>
+                Compra única · Windows
+            </div>
+
+            {% if is_premium %}
+                <a href="/download/premium" class="btn-status-main">⬇ Baixar o Jogo Completo</a>
+                <a href="/jogo" style="display:block;font-size:13px;color:var(--text-muted);text-decoration:none;margin-top:4px;transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-muted)'">← Voltar à página inicial</a>
+            {% else %}
+                <a href="/jogo" class="btn-status-main">← Voltar à página inicial</a>
+                <p class="pending-notice">
+                    O download será liberado em instantes após a confirmação do pagamento.<br>
+                    Caso não apareça em alguns minutos, <a href="/jogo">recarregue a página</a> ou entre em contato.
+                </p>
+            {% endif %}
+
+        </div>
+    </div>
+</body>
+</html>

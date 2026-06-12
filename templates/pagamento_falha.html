@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unread | Pagamento Recusado</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='inicio.css') }}?v=2.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .status-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+        }
+
+        .status-card {
+            background: #0e0517;
+            border: 1.5px solid rgba(52, 19, 100, 0.55);
+            border-radius: 20px;
+            padding: 52px 44px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 30px rgba(248, 113, 113, 0.06);
+        }
+
+        .status-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 24px;
+        }
+
+        .icon-fail {
+            background: rgba(248, 113, 113, 0.08);
+            border: 1.5px solid rgba(248, 113, 113, 0.2);
+        }
+
+        .status-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #f87171;
+            margin-bottom: 10px;
+        }
+
+        .status-title {
+            font-family: "Cinzel", serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.03em;
+        }
+
+        .status-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .status-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 28px;
+        }
+
+        .reasons-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .reasons-list li {
+            font-size: 12px;
+            color: rgba(240, 248, 255, 0.45);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+
+        .reasons-list li::before {
+            content: "";
+            width: 5px;
+            height: 5px;
+            background: rgba(248, 113, 113, 0.5);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+        .btn-status-main {
+            display: block;
+            width: 100%;
+            background: var(--purple-deep);
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            padding: 14px 0;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: "Poppins", sans-serif;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(52, 19, 100, 0.5);
+            transition: opacity 0.2s, transform 0.15s;
+            margin-bottom: 12px;
+        }
+
+        .btn-status-main:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-status-secondary {
+            display: block;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+            margin-top: 4px;
+        }
+
+        .btn-status-secondary:hover {
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+    <div class="status-wrapper">
+        <div class="status-card">
+
+            <div class="status-icon icon-fail">✕</div>
+            <p class="status-label">Pagamento recusado</p>
+            <h1 class="status-title">Algo deu errado</h1>
+            <p class="status-desc">
+                Não foi possível processar seu pagamento.<br>
+                Nenhum valor foi cobrado.
+            </p>
+
+            <div class="status-divider"></div>
+
+            <ul class="reasons-list">
+                <li>Verifique se os dados do cartão estão corretos</li>
+                <li>Confirme se há limite disponível</li>
+                <li>Tente outro método de pagamento (Pix ou boleto)</li>
+                <li>Entre em contato com seu banco se o problema persistir</li>
+            </ul>
+
+            <a href="/comprar_premium" class="btn-status-main">Tentar novamente</a>
+            <a href="/jogo" class="btn-status-secondary">← Voltar à página inicial</a>
+
+        </div>
+    </div>
+</body>
+</html>

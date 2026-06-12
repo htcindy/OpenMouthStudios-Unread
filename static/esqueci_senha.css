@@ -12,16 +12,18 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: rgb(45, 45, 45);
+    background: #09020A;
+    background-image: url("img/castle.jpeg");
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
 }
 
 /* MESMO WRAPPER DO CADASTRO */
 .wrapper {
     width: 420px;
     background: transparent;
-    border: 2px solid rgba(255, 255, 255, .2);
+    border: 2px solid #341364;
     backdrop-filter: blur(20px);
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     color: aliceblue;
@@ -72,18 +74,18 @@ body {
     font-size: 20px;
 }
 
-/* BOTÃO IGUAL CADASTRO */
+
 .wrapper .btn {
     width: 100%;
     height: 45px;
-    background: #fff;
+    background: #341364;
     border: none;
     outline: none;
     border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 15px rgba(89, 22, 187, 0.4);
     cursor: pointer;
     font-size: 16px;
-    color: #333;
+    color: #fff;
     font-weight: 600;
     margin-top: 10px;
     transition: opacity 0.2s;
@@ -116,17 +118,17 @@ body {
 
 .cadastro-link a:link,
 .cadastro-link a:visited {
-    color: aliceblue;
+    color: #726AFE;
     text-decoration: none;
 }
 
 .cadastro-link a {
-    color: aliceblue;
+    color: #726AFE;
     text-decoration: none;
     font-weight: 600;
 }
 
 .cadastro-link a:hover {
-    color: aliceblue;
+    color: #726AFE;
     text-decoration: underline;
 }

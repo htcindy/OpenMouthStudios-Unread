@@ -1,7 +1,10 @@
 import os
+import hmac
+import hashlib
+import mercadopago
 from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import pyotp
 from functools import wraps
@@ -28,6 +31,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///usu
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+# Mercado Pago SDK
+sdk = mercadopago.SDK(os.getenv('MP_ACCESS_TOKEN'))
+
 
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,7 +42,8 @@ class Usuario(db.Model):
     senha = db.Column(db.String(200), nullable=False)
     secret_token = db.Column(db.String(32))
     verificado = db.Column(db.Boolean, default=False)
-    is_admin = db.Column(db.Boolean, default=False)  # <-- novo campo
+    is_admin = db.Column(db.Boolean, default=False)
+    is_premium = db.Column(db.Boolean, default=False)  # <-- novo campo
 
 
 with app.app_context():
@@ -111,7 +118,6 @@ def processa_cadastro():
 
     user_existente = Usuario.query.filter_by(email=email).first()
 
-    # Se o usuário já existe mas não validou
     if user_existente:
         if not user_existente.verificado:
             session['email_verificacao'] = email
@@ -125,7 +131,6 @@ def processa_cadastro():
             return redirect(url_for('verificar'))
         return render_template('erro_cadastro.html')
 
-    # Se for um cadastro novo
     secret = pyotp.random_base32()
     senha_hash = generate_password_hash(senha)
     novo_user = Usuario(
@@ -206,7 +211,7 @@ def reenviar_otp():
 def esqueci_senha():
     return render_template('esqueci_senha.html')
 
-# Email de redefinição de senha
+
 @app.route('/enviar_reset', methods=['POST'])
 def enviar_reset():
     email = request.form.get('email')
@@ -227,7 +232,7 @@ def enviar_reset():
 
     return render_template('esqueci_senha.html', erro="Email não encontrado")
 
-# Inserir o código para a redefinição
+
 @app.route('/verificar_reset')
 def verificar_reset():
     if 'reset_email' not in session:
@@ -278,7 +283,84 @@ def salvar_nova_senha():
 @login_required
 def jogo():
     user = Usuario.query.filter_by(email=session['usuario_email']).first()
-    return render_template('jogo.html', is_admin=user.is_admin)
+    return render_template('jogo.html', is_admin=user.is_admin, is_premium=user.is_premium)
+
+# --- MERCADO PAGO ---
+
+@app.route('/comprar_premium')
+@login_required
+def comprar_premium():
+    user = Usuario.query.filter_by(email=session['usuario_email']).first()
+
+    if user.is_premium:
+        return redirect(url_for('download_premium'))
+
+    preference_data = {
+    "items": [
+        {
+            "id": "unread-premium",
+            "title": "Unread — Versão Completa",
+            "description": "Acesso completo ao jogo com todos os capítulos e conteúdos.",
+            "quantity": 1,
+            "currency_id": "BRL",
+            "unit_price": 29.90
+        }
+    ],
+    "payer": {
+        "email": user.email
+    },
+    "external_reference": str(user.id)
+}
+
+    try:
+        result = sdk.preference().create(preference_data)
+        preference = result.get("response", {})
+        checkout_url = preference.get("sandbox_init_point") or preference.get("init_point")
+        if not checkout_url:
+            return f"Erro: checkout_url é None. Resposta MP: {result}", 500
+        return redirect(checkout_url)
+    except Exception as e:  
+        print(f"Erro MP: {e}")
+    return render_template('erro_geral.html')
+
+
+@app.route('/pagamento/sucesso')
+@login_required
+def pagamento_sucesso():
+    status = request.args.get('status')
+    user_id = request.args.get('external_reference')
+
+    if status == 'approved' and user_id:
+        user = Usuario.query.get(int(user_id))
+        if user and not user.is_premium:
+            user.is_premium = True
+            db.session.commit()
+
+    user = Usuario.query.filter_by(email=session['usuario_email']).first()
+    return render_template('pagamento_sucesso.html', is_premium=user.is_premium)
+
+
+@app.route('/pagamento/falha')
+@login_required
+def pagamento_falha():
+    return render_template('pagamento_falha.html')
+
+
+@app.route('/pagamento/pendente')
+@login_required
+def pagamento_pendente():
+    return render_template('pagamento_pendente.html')
+
+
+@app.route('/download/premium')
+@login_required
+def download_premium():
+    """Rota protegida — só usuários premium conseguem baixar o jogo completo."""
+    user = Usuario.query.filter_by(email=session['usuario_email']).first()
+    if not user.is_premium:
+        return redirect(url_for('jogo'))
+    # Aqui você pode redirecionar para o arquivo direto ou gerar um link temporário
+    return redirect('/static/meu_jogo_completo.zip')
 
 
 # --- PAINEL ADMIN ---

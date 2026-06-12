@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unread | Pagamento Pendente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='inicio.css') }}?v=2.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .status-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+        }
+
+        .status-card {
+            background: #0e0517;
+            border: 1.5px solid rgba(52, 19, 100, 0.55);
+            border-radius: 20px;
+            padding: 52px 44px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 30px rgba(251, 191, 36, 0.06);
+        }
+
+        .status-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 24px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.15); }
+            50%       { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); }
+        }
+
+        .icon-pending {
+            background: rgba(251, 191, 36, 0.08);
+            border: 1.5px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .status-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #fbbf24;
+            margin-bottom: 10px;
+        }
+
+        .status-title {
+            font-family: "Cinzel", serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.03em;
+        }
+
+        .status-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .status-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 28px;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            text-align: left;
+            margin-bottom: 28px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item:not(:last-child)::before {
+            content: "";
+            position: absolute;
+            left: 11px;
+            top: 26px;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .t-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .t-dot.done  { background: rgba(74, 222, 128, 0.12); border: 1.5px solid rgba(74, 222, 128, 0.25); color: #4ade80; }
+        .t-dot.wait  { background: rgba(251, 191, 36, 0.1);  border: 1.5px solid rgba(251, 191, 36, 0.25); color: #fbbf24; }
+        .t-dot.todo  { background: rgba(240, 248, 255, 0.04); border: 1.5px solid rgba(240, 248, 255, 0.1); color: var(--text-faint); }
+
+        .t-body {
+            flex: 1;
+        }
+        .t-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+        .t-desc  { font-size: 11px; color: var(--text-faint); line-height: 1.5; }
+        .t-desc.highlight { color: #fbbf24; }
+
+        .btn-status-main {
+            display: block;
+            width: 100%;
+            background: var(--purple-deep);
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            padding: 14px 0;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: "Poppins", sans-serif;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(52, 19, 100, 0.5);
+            transition: opacity 0.2s, transform 0.15s;
+            margin-bottom: 12px;
+        }
+
+        .btn-status-main:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-status-secondary {
+            display: block;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+            margin-top: 4px;
+        }
+
+        .btn-status-secondary:hover { color: var(--text); }
+    </style>
+</head>
+<body>
+    <div class="status-wrapper">
+        <div class="status-card">
+
+            <div class="status-icon icon-pending">⏳</div>
+            <p class="status-label">Aguardando confirmação</p>
+            <h1 class="status-title">Pagamento em processamento</h1>
+            <p class="status-desc">
+                Seu pagamento foi gerado e está aguardando compensação.<br>
+                O acesso será liberado automaticamente assim que confirmado.
+            </p>
+
+            <div class="status-divider"></div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="t-dot done">✓</div>
+                    <div class="t-body">
+                        <p class="t-title">Pedido criado</p>
+                        <p class="t-desc">Sua solicitação foi registrada com sucesso.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="t-dot wait">·</div>
+                    <div class="t-body">
+                        <p class="t-title">Aguardando pagamento</p>
+                        <p class="t-desc highlight">Boleto ou Pix pode levar até 3 dias úteis para compensar.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="t-dot todo">○</div>
+                    <div class="t-body">
+                        <p class="t-title">Acesso liberado</p>
+                        <p class="t-desc">Download do jogo completo disponível automaticamente.</p>
+                    </div>
+                </div>
+            </div>
+
+            <a href="/jogo" class="btn-status-main">← Voltar à página inicial</a>
+            <a href="mailto:openmouth@studios.com" class="btn-status-secondary">Dúvidas? Entre em contato</a>
+
+        </div>
+    </div>
+</body>
+</html>

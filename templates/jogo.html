@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unread | Início</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='inicio.css') }}?v=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/LOGO_UNREAD.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='inicio.css') }}?v=2.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -13,40 +14,43 @@
 
         <header class="hero-header">
             <div class="logo-container">
-                <img src="{{ url_for('static', filename='img/LOGO.png') }}" alt="Logo Unread" class="hero-logo">
-                <h1 class="brand-name">Unread</h1>
+                <img src="{{ url_for('static', filename='img/LOGO_UNREAD.png') }}" alt="Logo Unread" class="hero-logo">
+                <span class="brand-name">Unread</span>
             </div>
             <nav class="main-nav">
                 {% if is_admin %}
-            <a href="/admin" class="nav-ativo">Administração</a>
+                <a href="/admin" class="nav-admin">Administração</a>
                 {% endif %}
-                <a href="#">Sobre</a>
-                <a href="#">Minijogos</a>
+                <a href="#sobre">Sobre</a>
                 <a href="#download">Baixar</a>
                 <a href="/logout" class="nav-logout">Sair</a>
             </nav>
         </header>
 
         <section class="hero-section">
-            <div class="hero-badge">Visual Novel • Aprendizado de Inglês</div>
-            <h2 class="hero-title">A biblioteca guarda um segredo.<br>Você consegue decifrá-lo?</h2>
-            <p class="hero-desc">Uma aventura de mistério onde aprender inglês é a única saída. Explore, dialogue e resolva enigmas.</p>
+            <h2 class="hero-title">A biblioteca guarda<br>um <em>segredo.</em><br>Você consegue decifrá-lo?</h2>
+            <p class="hero-desc">Uma aventura de mistério onde aprender inglês é a única saída.<br>Explore, dialogue e resolva enigmas.</p>
             <div class="hero-btns">
-                <a href="/static/meu_jogo.zip" class="btn-main">Baixar para Windows</a>
+                <a href="#modal-planos" class="btn-main" id="btn-abrir-modal-1">Jogar Agora</a>
                 <a href="#sobre" class="btn-secondary">Saiba mais</a>
             </div>
         </section>
 
         <main class="content-section" id="sobre">
-            <div class="section-badge">Área do Jogador</div>
+            <div class="section-header">
+                <span class="section-label">Área do Jogador</span>
+                <div class="section-line"></div>
+            </div>
 
             <div class="info-grid">
                 <div class="info-card">
+                    <div class="card-icon">📖</div>
                     <h3>Sobre o Jogo</h3>
                     <p>Uma Visual Novel imersiva para aprender inglês enquanto desvenda um mistério em Londres.</p>
                 </div>
 
                 <div class="info-card">
+                    <div class="card-icon">🧩</div>
                     <h3>Minijogos Inclusos</h3>
                     <ul>
                         <li>Quiz de Vocabulário</li>
@@ -55,10 +59,11 @@
                     </ul>
                 </div>
 
-                <div class="info-card download-area" id="download">
+                <div class="info-card info-card--featured" id="download">
+                    <div class="card-icon">🚀</div>
                     <h3>Pronto para começar?</h3>
-                    <p>Grátis • Windows • v1.0</p>
-                    <a href="/static/meu_jogo.zip" class="btn-download">Baixar agora</a>
+                    <p class="card-meta">Windows</p>
+                    <a href="#modal-planos" class="btn-download" id="btn-abrir-modal-2">Ver Opções de Download</a>
                 </div>
             </div>
         </main>
@@ -72,6 +77,74 @@
         </footer>
 
     </div>
+
+    <div id="modal-planos" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" id="btn-fechar-modal">&times;</button>
+            
+            <h2 class="modal-title">Escolha sua versão de <span>Unread</span></h2>
+            <p class="modal-subtitle">Aprenda inglês desvendando os mistérios de Londres.</p>
+
+            <div class="modal-grid">
+                <div class="plano-card">
+                    <h3>Versão Demo</h3>
+                    <div class="plano-preco">Grátis</div>
+                    <p class="plano-desc">Experimente o início da jornada e conheça as mecânicas do jogo.</p>
+                    <ul class="plano-recursos">
+                        <li>✓ Capítulo 1 completo</li>
+                        <li>✓ Quiz de Vocabulário básico</li>
+                    </ul>
+                    <a href="/static/Unread_demo.zip" class="btn-plano-free">Baixar Grátis</a>
+                </div>
+
+                <div class="plano-card plano-card--premium">
+                    <div class="badge-premium">Recomendado</div>
+                    <h3>Versão Completa</h3>
+                    <div class="plano-preco">R$ 29,90 <small>/ único</small></div>
+                    <p class="plano-desc">Desvende todo o mistério e tenha acesso a todas as ferramentas de estudo.</p>
+                    <ul class="plano-recursos">
+                        <li>✓ História completa (Todos os Capítulos)</li>
+                        <li>✓ Desafios de Listening com voz original</li>
+                        <li>✓ Mini-games e Vocabulário Avançado</li>
+                        <li>✓ Atualizações gratuitas</li>
+                    </ul>
+                    <a href="/comprar_premium" class="btn-plano-premium">Comprar Agora</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('modal-planos');
+        const abrirBtn1 = document.getElementById('btn-abrir-modal-1');
+        const abrirBtn2 = document.getElementById('btn-abrir-modal-2');
+        const fecharBtn = document.getElementById('btn-fechar-modal');
+
+        // Abre o modal removendo o comportamento padrão do link (#)
+        function abrirModal(e) {
+            e.preventDefault();
+            modal.classList.add('active');
+        }
+
+        // Fecha o modal
+        function fecharModal() {
+            modal.classList.remove('active');
+        }
+
+        // Eventos de clique para abrir
+        abrirBtn1.addEventListener('click', abrirModal);
+        abrirBtn2.addEventListener('click', abrirModal);
+        
+        // Evento de clique para fechar
+        fecharBtn.addEventListener('click', fecharModal);
+
+        // Fecha se o usuário clicar na área escura (fora do card)
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                fecharModal();
+            }
+        });
+    </script>
 
 </body>
 </html>

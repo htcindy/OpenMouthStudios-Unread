@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
-
 * {
     margin: 0;
     padding: 0;
@@ -13,15 +12,17 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: rgb(45, 45, 45);
+    background: #09020A;
+    background-image: url("img/castle.jpeg");
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
 }
 
 .wrapper {
     width: 420px;
     background: transparent;
-    border: 2px solid rgba(255, 255, 255, .2);
+    border: 2px solid #341364;
     backdrop-filter: blur(20px);
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     color: aliceblue;
@@ -50,7 +51,7 @@ body {
     border: 2px solid rgba(255, 255, 255, .2);
     border-radius: 40px;
     font-size: 16px;
-    color: aliceblue;
+    color: rgb(255, 255, 255);
     padding: 20px 45px 20px 20px;
 }
 
@@ -74,12 +75,13 @@ body {
 }
 
 .lembrarSenha label input{
-    accent-color: #fff;
+    accent-color: #814CE5;
+    cursor: pointer;
     margin-right: 3px;
 }
 
 .lembrarSenha a {
-    color: aliceblue;
+    color: #09020A;
     text-decoration: none;
 }
 
@@ -90,14 +92,14 @@ body {
 .wrapper .btn {
     width: 100%;
     height: 45px;
-    background: #fff;
+    background: #341364;
     border: none;
     outline: none;
     border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 15px rgba(181, 137, 246, 0.4);
     cursor: pointer;
     font-size: 16px;
-    color: #333;
+    color: #fff;
     font-weight: 600;
 }
 
